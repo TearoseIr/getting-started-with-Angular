@@ -1,12 +1,14 @@
+import {HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Product} from './products';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   items:Product[] = [];
 
@@ -21,5 +23,9 @@ export class CartService {
   clearCart():Product[]{
     this.items=[]
     return this.items;
+  }
+
+  getShippingPrices():Observable<{type:string, price:number}[]>{
+    return this.http.get<{type:string, price:number}[]>('/assets/shipping.json');
   }
 }
